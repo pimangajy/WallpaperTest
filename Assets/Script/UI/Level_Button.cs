@@ -13,9 +13,6 @@ public class Level_Button : MonoBehaviour
 
     public List<ItemHandler> itemhandlers = new List<ItemHandler>();
 
-    public Gauge gauge;
-
-    public Encyclopedia_Button encyclopedia;
     public CharaterType characterType  = CharaterType.Default; // 초기 타입
 
     public GameObject ItemList;  // 아이템 창에서 표시될 아이템 리스트들
@@ -49,7 +46,6 @@ public class Level_Button : MonoBehaviour
     {
         int character_Level = CharaterDataManager.Instance.charatorLevel;
         character_Level++;
-        Lv.text = character_Level.ToString();
 
         if (character_Level > 3) // 3레벨 초과 시 초기화
         {
@@ -67,33 +63,13 @@ public class Level_Button : MonoBehaviour
         {
             Debug.Log($"레벨업!  현재 타입: {characterType}, {(int)characterType}, 레벨: {character_Level}");
         }
+        Lv.text = character_Level.ToString();
 
         CharaterDataManager.Instance.charaterType = characterType;
         CharaterDataManager.Instance.charatorLevel = character_Level;
         CharaterDataManager.Instance.SaveData();
         CharaterDataManager.Instance.AddCharater(CharacterAssetManager.Instance.GetCharatorData(character_Level, characterType));
-
-        switch (character_Level)
-        {
-            case 0:
-                gauge.MaxGauge(3600);
-                break;
-
-            case 1:
-                gauge.MaxGauge(7200);
-                break;
-
-            case 2:
-                gauge.MaxGauge(10800);
-                break;
-
-            case 3:
-                gauge.MaxGauge(18000);
-                break;
-            default:
-                Debug.LogWarning($"알 수 없는 레벨 값: {character_Level}");
-                break;
-        }
+        BackgroundProgress.Instance.LevelUp();
     }
     private CharaterType GetRandomCharacterType()
     {
@@ -116,25 +92,6 @@ public class Level_Button : MonoBehaviour
         }
 
         LevelUp();
-
-        // 애정도 처리
-        int interest = Interest_Gauge.value >= Interest_Gauge.maxValue ? 1 : 0;
-        if (Interest_Gauge.value >= Interest_Gauge.maxValue)
-        {
-            Interest_Gauge.value = 0;
-            PlayerPrefs.SetInt("interest", 1); // 애정도 상태 저장
-        }
-        else
-        {
-            PlayerPrefs.SetInt("interest", 0);
-        }
-
-        // 게이지 초기화
-        exp_Gauge.value = 0;
-        if (interest == 1)
-        {
-            Interest_Gauge.value = 0;
-        }
     }
 
     public void Item_Plus()

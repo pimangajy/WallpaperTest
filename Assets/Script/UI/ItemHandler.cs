@@ -60,7 +60,6 @@ public class ItemHandler : MonoBehaviour
     {
         ApplyItemEffect(ItemDataManager.Instance.UseItem(itemData));
         LoadItemCount();
-        UIManager.Instance.SlideSaveData(itemData);
     }
 
     private void ApplyItemEffect(bool use)

@@ -16,6 +16,7 @@ public class Encyclopedia_Button : MonoBehaviour
     public string charatorName;
 
     public Encyclopedia_Panel panel;
+
     [SerializeField]
     private CharatorData charaterData;
 
@@ -26,7 +27,7 @@ public class Encyclopedia_Button : MonoBehaviour
     {
         if (UIEvent != null)
         {
-            UIEvent.itemSlotOpen += EncyclopediaSlot;
+            UIEvent.encyclopediaSlotOpen += EncyclopediaSlot;
         }
     }
 
@@ -36,18 +37,19 @@ public class Encyclopedia_Button : MonoBehaviour
         bool discovered = CharaterDataManager.Instance.IsCharaterDiscovered(charaterData);
         icon.sprite = discovered ? charaterData.main_Image : charaterData.hide_Sprite;
         charaterName.text = discovered ? charaterData.name : charatorName;
-        Debug.Log("도감 이미지");
     }
 
     public void Open()
     {
         bool discovered = CharaterDataManager.Instance.IsCharaterDiscovered(charaterData);
+        int count = CharaterDataManager.Instance.IsCharatorCount(charaterData);
 
         panel.character_name.text = discovered ? charaterData.CharatorName : "???";
         panel.age.text = discovered ? charaterData.age : "???";
         panel.birthday.text = discovered ? charaterData.birthday : "???";
         panel.mbti.text = discovered ? charaterData.mbti : "???";
         panel.explanation.text = discovered ? charaterData.explanation : "???";
+        panel.count.text = discovered ? count.ToString() : "???";
         // panel.count.text = count.ToString();
         panel.main_image.sprite = discovered ? charaterData.main_Image : charaterData.hide_Sprite;
         btn.onClick.RemoveAllListeners();
@@ -57,9 +59,16 @@ public class Encyclopedia_Button : MonoBehaviour
 
     public void CharatorTyprSet()
     {
+        CharaterDataManager.Instance.charatorLevel = charaterData.level;
+        CharaterDataManager.Instance.charaterType = charaterData.type;
+        CharaterDataManager.Instance.SaveData();
+        BackgroundProgress.Instance.ApplyLoadedValues();
+
+        /*
         PlayerPrefs.SetInt("level", charaterData.level);
         PlayerPrefs.SetInt("Character_type", (int)charaterData.type);
         PlayerPrefs.Save();
+        */
 
         Debug.Log("캐릭터 변경 완료");
     }

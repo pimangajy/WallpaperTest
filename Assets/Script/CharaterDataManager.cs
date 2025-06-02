@@ -3,10 +3,6 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
 using System;
-using System.Linq;
-using static ItemDataManager;
-using UnityEngine.TextCore.Text;
-using static UnityEditor.Progress;
 
 public class CharaterDataManager : MonoBehaviour
 {
@@ -34,7 +30,6 @@ public class CharaterDataManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -50,6 +45,17 @@ public class CharaterDataManager : MonoBehaviour
     {
         return discoveredCharater.TryGetValue(charater.name, out bool isDiscovered) && isDiscovered;
     }
+    public int IsCharatorCount(CharatorData charater)
+    {
+        if(charaterCount.TryGetValue(charater.name, out int count))
+        {
+            return count;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
 
     public void DiscoverCharater(CharatorData charater)
@@ -63,12 +69,12 @@ public class CharaterDataManager : MonoBehaviour
 
     public void AddCharater(CharatorData charater)
     {
-        if(!charaterCount.ContainsKey(charater.name))
+        if (!charaterCount.ContainsKey(charater.name))
         {
             charaterCount[charater.name] = 0;
         }
         DiscoverCharater(charater);
-        charaterCount[charater.name] ++;
+        charaterCount[charater.name]++;
         Debug.Log(charater.name + " 캐릭터 " + charaterCount[charater.name] + " 번째 흭득");
         SaveData();
     }
@@ -135,3 +141,4 @@ public class CharaterDataManager : MonoBehaviour
         Debug.Log("캐릭터 데이터가 초기화되었습니다.");
     }
 }
+

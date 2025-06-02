@@ -19,10 +19,6 @@ public class Click : MonoBehaviour
     private Vector3 touchStartPosition;
     private const float TOUCH_TIME_THRESHOLD = 0.2f; // 터치로 인식할 최대 시간 (초)
 
-
-    [SerializeField]
-    private List<Idle_Anime> idle_Animes = new List<Idle_Anime>();
-
     public Idle_Anime idle_Anime;
 
     public Imoticon_On_Off imoticon_1;
@@ -86,11 +82,6 @@ public class Click : MonoBehaviour
 
                     idle_Anime.HeadIdle_On();
 
-                    foreach (Idle_Anime idle in idle_Animes)
-                    {
-                        idle.HeadIdle_On();
-                    }
-
                     imoticon_4.Imoticon_On();
 
                     Debug.Log("드래그 시작!");
@@ -109,11 +100,6 @@ public class Click : MonoBehaviour
             if (isDragging)
             {
                 isDragging = false;
-
-                foreach (Idle_Anime idle in idle_Animes)
-                {
-                    idle.HeadIdle_Off();
-                }
 
                 imoticon_4.Imoticon_Off();
                 idle_Anime.HeadIdle_Off();

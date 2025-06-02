@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class UI_Event : MonoBehaviour
 {
@@ -33,4 +29,5 @@ public class UI_Event : MonoBehaviour
     {
         settingSlotIOpen?.Invoke(this, EventArgs.Empty);
     }
+
 }
